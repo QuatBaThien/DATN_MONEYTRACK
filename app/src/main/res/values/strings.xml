@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">NoteApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Thiện Quất</string>
+    <string name="nav_header_subtitle">quatbathien123@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Trang chủ</string>
+    <string name="menu_subject">Môn học</string>
+    <string name="menu_share">Được chia sẻ với tôi</string>
+    <string name="step1_title">Manage your notes easily</string>
+    <string name="step2_title">Organize your thougts</string>
+    <string name="step3_title">Create cards and easy styling</string>
+    <string name="step1_content">A completely easy way to manage and customize your notes.</string>
+    <string name="step2_content">Most beautiful note taking application.</string>
+    <string name="step3_content">Making your content legible has never been easier.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="already_have_an_account">Đã có tài khoản</string>
+    <string name="next">Tiếp tục</string>
+</resources>
