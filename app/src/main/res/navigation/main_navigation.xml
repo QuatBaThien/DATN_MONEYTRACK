@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.thienhd.noteapp.view.ui.home.HomeFragment"
+        android:label="@string/nav_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_transaction"
+        android:name="com.thienhd.noteapp.view.ui.transaction.TransactionFragment"
+        android:label="@string/nav_transaction"
+        tools:layout="@layout/fragment_transaction" >
+        <action
+            android:id="@+id/action_transactionFragment_to_editTransactionFragment"
+            app:destination="@id/editTransactionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editTransactionFragment"
+        android:name="com.thienhd.noteapp.view.ui.transaction.EditTransactionFragment"
+        tools:layout="@layout/fragment_edit_transaction">
+        <action
+            android:id="@+id/action_editTransactionFragment_to_categoryListFragment"
+            app:destination="@id/categoryListFragment" />
+        <argument
+            android:name="transactionId"
+            app:argType="string" />
+        <argument
+            android:name="selectedCategoryId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="selectedCategoryName"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/nav_budget"
+        android:name="com.thienhd.noteapp.view.ui.budget.BudgetFragment"
+        android:label="@string/nav_budget"
+        tools:layout="@layout/fragment_budget" >
+        <action
+            android:id="@+id/action_budgetFragment_to_createBudgetFragment"
+            app:destination="@id/createBudgetFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createBudgetFragment"
+        android:name="com.thienhd.noteapp.view.ui.budget.CreateBudgetFragment"
+        android:label="Create Budget"
+        tools:layout="@layout/fragment_create_budget" >
+        <action
+            android:id="@+id/action_createBudgetFragment_to_chooseCategoryFragment"
+            app:destination="@id/chooseCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseCategoryFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.category.ChooseCategoryFragment"
+        tools:layout="@layout/fragment_choose_category">
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_menu"
+        android:name="com.thienhd.noteapp.view.ui.menu.MenuFragment"
+        android:label="@string/nav_menu"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/action_menuFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.category.CategoryFragment"
+        android:label="Category"
+        tools:layout="@layout/fragment_category">
+        <action
+            android:id="@+id/action_categoryFragment_to_createCategoryFragment"
+            app:destination="@id/createCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_menuFragment"
+            app:destination="@id/nav_menu" />
+        <action
+            android:id="@+id/action_categoryFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment">
+            <argument
+                android:name="categoryId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/createCategoryFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.category.CreateCategoryFragment"
+        android:label="Create Category"
+        tools:layout="@layout/fragment_create_category">
+        <action
+            android:id="@+id/action_createCategoryFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editCategoryFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.category.EditCategoryFragment"
+        android:label="Edit Category"
+        tools:layout="@layout/fragment_edit_category">
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/categoryListFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.category.CategoryListFragment"
+        android:label="Edit Category"
+        tools:layout="@layout/fragment_category_list">
+        <action
+            android:id="@+id/action_categoryListFragment_to_editTransactionFragment"
+            app:destination="@id/editTransactionFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.wallet.WalletFragment"
+        android:label="Wallets"
+        tools:layout="@layout/fragment_wallet">
+        <action
+            android:id="@+id/action_walletFragment_to_walletDetailFragment"
+            app:destination="@id/walletDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/walletDetailFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.wallet.WalletDetailFragment"
+        android:label="Wallet Detail"
+        tools:layout="@layout/fragment_wallet_detail" >
+        <argument
+            android:name="walletId"
+            app:argType="string" />
+    </fragment>
+</navigation>

@@ -1,7 +1,12 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("com.google.gms.google-services")
+
 }
+
+
 
 android {
     namespace = "com.thienhd.noteapp"
@@ -37,9 +42,9 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        viewBinding = true
-        compose = true
+        dataBinding = true
     }
+
 }
 
 dependencies {
@@ -59,4 +64,14 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.compose.material3:material3:1.0.1")
     implementation("androidx.compose.material3:material3-window-size-class:1.0.1")
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    //firsbase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-auth:21.0.1")
+    implementation("com.google.firebase:firebase-firestore")
 }

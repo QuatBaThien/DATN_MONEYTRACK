@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "961460127591",
+    "project_id": "moneytrack-3b4b1",
+    "storage_bucket": "moneytrack-3b4b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961460127591:android:76db71a57c2a12ec7211c2",
+        "android_client_info": {
+          "package_name": "com.thienhd.noteapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi93FV30hqyfGxBxd9h7WfviJTetgqzYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

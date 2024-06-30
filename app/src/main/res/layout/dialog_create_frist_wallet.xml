@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_create_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tạo ví đầu tiên của bạn"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="16dp" />
+
+        <EditText
+            android:id="@+id/editTextWalletName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên ví"
+            android:text="Tiền mặt"
+            android:inputType="text"
+            android:padding="8dp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/editTextWalletBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số dư ban đầu"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/buttonCreateWallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tạo ví"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</layout>

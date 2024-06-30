@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/item_backround_conner">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/iv_transaction_icon"
+            android:background="#FCEED4"
+            android:src="@drawable/ic_shopping"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_transaction_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Mua sam"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/iv_transaction_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_transaction_content"
+            android:text="Mua a'o"
+            app:layout_constraintStart_toStartOf="@+id/tv_transaction_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_transaction_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/tv_transaction_amount"
+            android:textColor="@color/red"
+            android:text="-100.000 d"
+            android:textSize="18dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_time"
+            app:layout_constraintEnd_toEndOf="@+id/tv_transaction_amount"
+            app:layout_constraintTop_toBottomOf="@id/tv_transaction_amount"
+            android:text="10:10am" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

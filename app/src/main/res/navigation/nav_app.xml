@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_app"
+    app:startDestination="@+id/nav_welcome">
+    <fragment
+        android:id="@+id/nav_welcome"
+        android:name="com.thienhd.noteapp.view.ui.welcome.WelcomeFragment"
+        tools:layout="@layout/fragment_welcome">
+        <action android:id="@+id/nav_welcome_to_splash1"
+            app:destination="@id/nav_splash_1"/>
+        <action android:id="@+id/nav_welcome_to_main"
+            app:destination="@id/nav_main"/>
+    </fragment>
+    <fragment
+        android:id="@+id/nav_splash_1"
+        android:name="com.thienhd.noteapp.view.ui.splashScreen.SplashFragmentStep1"
+        tools:layout="@layout/fragment_splash_step1">
+
+        <action android:id="@+id/nav_splash1_to_login"
+            app:destination="@id/loginFragment"/>
+        <action android:id="@+id/nav_splash1_to_register"
+            app:destination="@id/registerFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_main"
+        android:name="com.thienhd.noteapp.view.ui.MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_createTransactionFragment"
+            app:destination="@+id/crateTransactionFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.thienhd.noteapp.view.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/nav_main" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.thienhd.noteapp.view.ui.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/crateTransactionFragment"
+        android:name="com.thienhd.noteapp.view.ui.transaction.CreateTransactionFragment"
+        tools:layout="@layout/fragment_create_transaction">
+        <action
+            android:id="@+id/action_createTransactionFragment_to_chooseCategoryFragment"
+            app:destination="@id/chooseCategoryFragment" />
+        <action
+            android:id="@+id/action_createTransactionFragment_to_chooseWalletFragment"
+            app:destination="@id/chooseWalletFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chooseCategoryFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.category.ChooseCategoryFragment"
+        tools:layout="@layout/fragment_choose_category">
+        <action
+            android:id="@+id/action_chooseCategoryFragment_to_createTransactionFragment"
+            app:destination="@id/crateTransactionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chooseWalletFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.wallet.ChooseWalletFragment"
+        tools:layout="@layout/fragment_choose_wallet">
+        <action
+            android:id="@+id/action_chooseWalletFragment_to_createTransactionFragment"
+            app:destination="@id/crateTransactionFragment" />
+    </fragment>
+
+</navigation>
