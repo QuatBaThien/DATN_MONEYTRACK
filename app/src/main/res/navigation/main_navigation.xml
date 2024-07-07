@@ -26,8 +26,8 @@
         android:name="com.thienhd.noteapp.view.ui.transaction.EditTransactionFragment"
         tools:layout="@layout/fragment_edit_transaction">
         <action
-            android:id="@+id/action_editTransactionFragment_to_categoryListFragment"
-            app:destination="@id/categoryListFragment" />
+            android:id="@+id/action_editTransactionFragment_to_chooseCategoFragment"
+            app:destination="@id/chooseCategoryFragment" />
         <argument
             android:name="transactionId"
             app:argType="string" />
@@ -41,6 +41,14 @@
             android:defaultValue="" />
     </fragment>
 
+    <fragment
+        android:id="@+id/chooseWalletFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.wallet.ChooseWalletFragment"
+        tools:layout="@layout/fragment_choose_wallet">
+        <action
+            android:id="@+id/action_chooseWalletFragment_to_createTransactionFragment"
+            app:destination="@id/crateTransactionFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_budget"
@@ -118,17 +126,6 @@
         <argument
             android:name="categoryId"
             app:argType="integer" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/categoryListFragment"
-        android:name="com.thienhd.noteapp.view.ui.menu.category.CategoryListFragment"
-        android:label="Edit Category"
-        tools:layout="@layout/fragment_category_list">
-        <action
-            android:id="@+id/action_categoryListFragment_to_editTransactionFragment"
-            app:destination="@id/editTransactionFragment" />
-
     </fragment>
 
     <fragment

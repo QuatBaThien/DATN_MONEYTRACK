@@ -38,7 +38,7 @@ class CategoryListFragment : Fragment() {
             val bundle = Bundle().apply {
                 putInt("selectedCategoryId", category.categoryID)
             }
-             findNavController().navigate(R.id.action_categoryListFragment_to_editTransactionFragment)
+             //findNavController().navigate(R.id.action_categoryListFragment_to_editTransactionFragment)
         }
 
         binding.rvCategories.apply {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -17,12 +18,20 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.thienhd.noteapp.R
 import com.thienhd.noteapp.data.entities.Category
 import com.thienhd.noteapp.databinding.FragmentMainBinding
+import com.thienhd.noteapp.viewmodel.BudgetViewModel
+import com.thienhd.noteapp.viewmodel.CategoryViewModel
+import com.thienhd.noteapp.viewmodel.TransactionViewModel
+import com.thienhd.noteapp.viewmodel.WalletViewModel
 
 class MainFragment : Fragment() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: FragmentMainBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private val walletViewModel: WalletViewModel by activityViewModels()
+    private val categoryViewModel: CategoryViewModel by activityViewModels()
+    private val transactionViewModel:TransactionViewModel by activityViewModels()
+    private val budgetViewModel: BudgetViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +52,9 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_createTransactionFragment)
         }
         checkFirstLogin()
+        walletViewModel.loadWalletsFromFirestore()
+        categoryViewModel.loadCategoriesFromFirestore()
+        transactionViewModel.loadTransactionsFromFirestore()
     }
     private fun checkFirstLogin() {
         val userId = auth.currentUser?.uid ?: return

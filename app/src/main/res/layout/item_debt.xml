@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Thứ 3, 9 tháng 6 2024"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_debt_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="60dp"
+            android:text="Vay:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/tv_date"
+            app:layout_constraintTop_toTopOf="@+id/tv_date" />
+
+        <TextView
+            android:id="@+id/tv_leader_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:text="Lê Huy"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_debt_type"
+            app:layout_constraintStart_toEndOf="@+id/tv_debt_type"
+            app:layout_constraintTop_toTopOf="@+id/tv_debt_type" />
+
+        <TextView
+            android:id="@+id/tv_amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:text="Số tiền:"
+            android:textColor="@color/black"
+
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+
+        <TextView
+            android:id="@+id/tv_paid_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:text="100.000 VNĐ"
+            android:textColor="#F44336"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_amount_text"
+
+            app:layout_constraintStart_toEndOf="@+id/tv_amount_text"
+            app:layout_constraintTop_toTopOf="@+id/tv_amount_text"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_paid_amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+            android:text="Đã trả:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_amount_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_amount_text" />
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="50.000 VNĐ"
+            android:textColor="#4CAF50"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_paid_amount_text"
+            app:layout_constraintEnd_toEndOf="@+id/tv_paid_amount"
+            app:layout_constraintTop_toTopOf="@+id/tv_paid_amount_text" />
+
+        <TextView
+            android:id="@+id/tv_deadline_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:text="Hạn:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_debt_type"
+            app:layout_constraintTop_toBottomOf="@+id/tv_debt_type" />
+
+        <TextView
+            android:id="@+id/tv_deadline_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="29-6-2024"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_deadline_text"
+            app:layout_constraintStart_toStartOf="@+id/tv_leader_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_deadline_text"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_done_debt"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/white"
+            android:text="Thanh toán"
+            android:textColor="#4CAF50"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_deadline_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_deadline_text"
+            app:strokeColor="#4CAF50"
+            app:strokeWidth="1dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

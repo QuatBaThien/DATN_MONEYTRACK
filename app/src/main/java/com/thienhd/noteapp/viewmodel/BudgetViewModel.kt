@@ -34,7 +34,7 @@ class BudgetViewModel(application: Application) : AndroidViewModel(application) 
         this.transactionViewModel = transactionViewModel
     }
 
-    private fun loadBudgetsFromFirestore() {
+    fun loadBudgetsFromFirestore() {
         val userId = auth.currentUser?.uid ?: return
 
         db.collection("budgets")

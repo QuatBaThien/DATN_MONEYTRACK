@@ -58,8 +58,7 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
         }
 
         binding.chooseCategory.setOnClickListener {
-            // Uncomment the following line to navigate to the choose category fragment
-            // findNavController().navigate(R.id.action_editTransactionFragment_to_chooseCategoryFragment)
+           // findNavController().navigate(R.id.action_editTransactionFragment_to_chooseCategoryFragment)
         }
 
         binding.chooseWallet.setOnClickListener {

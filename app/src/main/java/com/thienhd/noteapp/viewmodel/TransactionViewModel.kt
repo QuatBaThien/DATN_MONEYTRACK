@@ -7,12 +7,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.thienhd.noteapp.data.entities.Transaction
 import com.thienhd.noteapp.data.DateTransaction
+import com.thienhd.noteapp.data.FilterCriteria
 import kotlinx.coroutines.launch
 
 class TransactionViewModel(application: Application) : AndroidViewModel(application) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val categoryViewModel = CategoryViewModel.getInstance(application)
 
     private val _transactions = MutableLiveData<List<Transaction>>()
     val transactions: LiveData<List<Transaction>> get() = _transactions
@@ -20,26 +22,30 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     private val _dateTransactions = MutableLiveData<List<DateTransaction>>()
     val dateTransactions: LiveData<List<DateTransaction>> get() = _dateTransactions
 
+    private var originalTransactions: List<Transaction> = listOf()
+
+    private val _currentFilterCriteria = MutableLiveData<FilterCriteria>()
+    val currentFilterCriteria: LiveData<FilterCriteria> get() = _currentFilterCriteria
     init {
         viewModelScope.launch {
             loadTransactionsFromFirestore()
         }
     }
 
-    private fun loadTransactionsFromFirestore() {
+    fun loadTransactionsFromFirestore() {
         val userId = auth.currentUser?.uid ?: return
 
         db.collection("transactions")
             .whereEqualTo("userID", userId)
+            .orderBy("date", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-                val transactionsList = if (documents.isEmpty) {
-                    listOf()
-                } else {
-                    documents.map { document ->
-                        document.toObject(Transaction::class.java)
-                    }
+                val transactionsList = documents.map { document ->
+                    val transaction = document.toObject(Transaction::class.java)
+                    transaction.transactionID = document.id // Store document ID as transactionID
+                    transaction
                 }
+                originalTransactions = transactionsList
                 _transactions.value = transactionsList
             }
             .addOnFailureListener { exception ->
@@ -62,7 +68,8 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             )
 
             db.collection("transactions").add(transactionData)
-                .addOnSuccessListener {
+                .addOnSuccessListener { documentReference ->
+                    transaction.transactionID = documentReference.id // Store document ID as transactionID
                     loadTransactionsFromFirestore()
                 }
                 .addOnFailureListener { exception ->
@@ -131,6 +138,7 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                     val batch = db.batch()
                     for (document in documents) {
                         val transaction = document.toObject(Transaction::class.java)
+                        transaction.transactionID = document.id // Ensure document ID is set
                         transaction.categoryID = defaultCategoryId
                         val transactionRef = db.collection("transactions").document(document.id)
                         batch.set(transactionRef, transaction)
@@ -147,5 +155,48 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                     Log.e("TransactionViewModel", "Error getting transactions: ", exception)
                 }
         }
+    }
+
+    fun filterTransactions(criteria: FilterCriteria) {
+        var filteredTransactions = originalTransactions.toMutableList()
+        _currentFilterCriteria.value = criteria
+
+        criteria.startDate?.let { startDate ->
+            filteredTransactions = filteredTransactions.filter { it.date.toDate().after(startDate) }.toMutableList()
+        }
+
+        criteria.endDate?.let { endDate ->
+            filteredTransactions = filteredTransactions.filter { it.date.toDate().before(endDate) }.toMutableList()
+        }
+
+        criteria.type?.let { type ->
+            filteredTransactions = when (type) {
+                1 -> filteredTransactions.filter { it.type == 1 }.toMutableList() // Income
+                2 -> filteredTransactions.filter { it.type == 0 }.toMutableList() // Expense
+                else -> filteredTransactions
+            }
+        }
+
+        criteria.order?.let { order ->
+            filteredTransactions = when (order) {
+                1 -> filteredTransactions.sortedBy { it.date }.toMutableList()
+                else -> filteredTransactions.sortedByDescending { it.date }.toMutableList()
+            }
+        }
+
+        _transactions.value = filteredTransactions
+    }
+
+    fun resetTransactions() {
+        _transactions.value = originalTransactions
+        _currentFilterCriteria.value = FilterCriteria(null,null,0,0)
+    }
+
+    fun searchTransactions(query: String) {
+        val filteredTransactions = originalTransactions.filter {
+            it.note.contains(query, ignoreCase = true) ||
+                    categoryViewModel.getCategoryById(it.categoryID)?.name?.contains(query, ignoreCase = true) == true
+        }
+        _transactions.value = filteredTransactions.toMutableList()
     }
 }

@@ -10,52 +10,27 @@
         tools:context=".view.ui.transaction.TransactionFragment">
 
 
-        <Button
-            android:id="@+id/from_date"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        <TextView
+            android:id="@+id/tv_fragment_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:text="@string/from_date"
-            android:textColor="@color/black"
-            android:textSize="14dp"
-            app:icon="@drawable/ic_angle_small_down"
-            app:iconSize="20dp"
-            app:iconTint="@color/blue"
+            android:text="Sổ giao dịch"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/to_date"
-            app:strokeColor="@color/stroke_color"
-            app:strokeWidth="1dp" />
-
-        <Button
-            android:id="@+id/to_date"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toEndOf="@+id/from_date"
-            app:layout_constraintTop_toTopOf="parent"
-            android:backgroundTint="@color/white"
-            android:text="@string/to_date"
-            android:textColor="@color/black"
-            android:textSize="14dp"
-            app:icon="@drawable/ic_angle_small_down"
-            app:iconSize="20dp"
-            app:iconTint="@color/blue"
-            app:strokeColor="@color/stroke_color"
-            app:strokeWidth="1dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/transaction_filter"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/button_icon"
-
-            app:layout_constraintBottom_toBottomOf="@+id/to_date"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_fragment_title"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/to_date" />
+            app:layout_constraintTop_toTopOf="@+id/tv_fragment_title"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/bt_search"
@@ -64,8 +39,9 @@
             app:layout_constraintDimensionRatio="1:1"
             android:backgroundTint="@color/white"
             android:src="@drawable/ic_search"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/to_date" />
+            app:layout_constraintTop_toBottomOf="@id/tv_fragment_title"/>
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ev_search"
@@ -82,14 +58,13 @@
         <TextView
             android:id="@+id/bt_cancel"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:backgroundTint="@color/white"
-            android:inputType="textCapSentences"
+            android:gravity="center"
             android:text="Huỷ"
+            android:visibility="invisible"
             android:textColor="@color/text_blue"
             android:textSize="13dp"
-            android:gravity="right"
-            android:textAlignment="gravity"
             app:layout_constraintBottom_toBottomOf="@+id/bt_search"
             app:layout_constraintEnd_toEndOf="@+id/transaction_filter"
             app:layout_constraintStart_toStartOf="@+id/transaction_filter"

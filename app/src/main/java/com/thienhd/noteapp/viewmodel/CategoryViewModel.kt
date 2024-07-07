@@ -35,6 +35,15 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
             loadCategoriesFromFirestore()
         }
     }
+    companion object {
+        @Volatile private var instance: CategoryViewModel? = null
+
+        fun getInstance(application: Application): CategoryViewModel {
+            return instance ?: synchronized(this) {
+                instance ?: CategoryViewModel(application).also { instance = it }
+            }
+        }
+    }
 
     fun loadCategoriesFromFirestore() {
         val userId = auth.currentUser?.uid ?: return

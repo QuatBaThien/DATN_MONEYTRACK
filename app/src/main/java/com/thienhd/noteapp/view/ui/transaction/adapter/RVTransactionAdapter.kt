@@ -19,7 +19,6 @@ class RVTransactionAdapter(
     private var transactionList: List<Transaction>,
     private val categoryViewModel: CategoryViewModel
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ViewType.TYPE_ONE.type -> {
@@ -49,12 +48,13 @@ class RVTransactionAdapter(
     inner class TypeTwoViewHolder(private val binding: ItemTransactionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Transaction) {
             with(binding) {
-                tvTransactionTitle.text = categoryViewModel.getCategoryById(item.categoryID)?.name
+                val category = categoryViewModel.getCategoryById(item.categoryID)
+                tvTransactionTitle.text = category?.name
                 tvTransactionContent.text = item.note
                 tvTime.text = formatDate(item.date)
                 tvTransactionAmount.setTextColor(Color.parseColor(if (item.type != 0) "#FD3C4A" else "#00A86B"))
-                tvTransactionAmount.text = (if (item.type != 0) "-" else "+") + item.amount + "đ"
-                val iconName = "ic_item_${categoryViewModel.getCategoryById(item.categoryID)?.iconId}"
+                tvTransactionAmount.text = (if (item.type != 0) "-" else "+") + item.amount + " VNĐ"
+                val iconName = "ic_item_${category?.iconId}"
                 val iconResId = root.context.resources.getIdentifier(iconName, "drawable", root.context.packageName)
                 ivTransactionIcon.setImageResource(iconResId)
 
@@ -87,7 +87,7 @@ class RVTransactionAdapter(
     }
 
     private fun formatDate(timestamp: Timestamp): String {
-        val sdf = SimpleDateFormat("HH mm, dd MM yy", Locale("vi", "VN"))
+        val sdf = SimpleDateFormat("HH:mm, dd 'thg' MM yyyy", Locale("vi", "VN"))
         return sdf.format(timestamp.toDate())
     }
 }
