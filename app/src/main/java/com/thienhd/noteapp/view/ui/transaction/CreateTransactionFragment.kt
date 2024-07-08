@@ -89,6 +89,8 @@ class CreateTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener
 
         binding.btBack.setOnClickListener {
             findNavController().navigateUp()
+            chooseCategoryViewModel.resetCategory()
+            chooseWalletViewModel.resetWallet()
         }
 
         binding.tvTransactionTime.setOnClickListener {
@@ -217,7 +219,7 @@ class CreateTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener
                 categoryID = categoryId,
                 note = note,
                 type = category.type,
-                amount = amountStr,
+                amount = amount,
                 date = date,
                 hour = time,
                 userID = userId

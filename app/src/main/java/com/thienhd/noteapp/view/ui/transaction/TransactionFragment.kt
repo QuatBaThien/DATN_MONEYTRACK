@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -74,10 +76,10 @@ class TransactionFragment : Fragment(), TransactionFilterBottomSheetFragment.OnF
             binding.evSearch.setText("")
             viewModel.resetTransactions()
             it.hideKeyboard()
+            binding.evSearch.clearFocus()
         }
-
-        binding.evSearch.setOnFocusChangeListener { _, hasFocus ->
-            binding.btCancel.visibility = if (hasFocus && binding.evSearch.text?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
+        binding.evSearch.addTextChangedListener {
+            binding.btCancel.isVisible = !it.isNullOrEmpty()
         }
     }
 
@@ -106,6 +108,7 @@ class TransactionFragment : Fragment(), TransactionFilterBottomSheetFragment.OnF
         viewModel.currentFilterCriteria.observe(viewLifecycleOwner) { criteria ->
             updateFilterButtonAppearance(criteria)
         }
+        viewModel.loadTransactionsFromFirestore()
     }
     private fun View.hideKeyboard() {
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

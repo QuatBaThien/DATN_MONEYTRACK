@@ -8,7 +8,7 @@ data class Transaction(
     var categoryID: Int = 0,
     var note: String = "",
     var type: Int = 0,
-    var amount: String = "",
+    var amount: Double = 0.0,
     var date: Timestamp = Timestamp.now(),
     var hour: String = "",
     var userID: String = "",

@@ -56,8 +56,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1123" />
-                            <option name="y" value="115" />
+                            <option name="x" value="1114" />
+                            <option name="y" value="97" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -137,7 +137,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_editTransactionFragment_to_chooseCategoFragment">
+                            <entry key="action_editTransactionFragment_to_chooseCategoryFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_editTransactionFragment_to_chooseWalletFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

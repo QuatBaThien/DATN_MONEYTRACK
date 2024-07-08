@@ -64,10 +64,11 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                 "note" to transaction.note,
                 "type" to transaction.type,
                 "date" to transaction.date,
-                "hour" to transaction.hour
+                "hour" to transaction.hour,
             )
 
-            db.collection("transactions").add(transactionData)
+            db.collection("transactions")
+                .add(transactionData)
                 .addOnSuccessListener { documentReference ->
                     transaction.transactionID = documentReference.id // Store document ID as transactionID
                     loadTransactionsFromFirestore()
@@ -84,22 +85,13 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
 
     fun deleteTransaction(id: String) {
         viewModelScope.launch {
-            val userId = auth.currentUser?.uid ?: return@launch
-            db.collection("transactions")
-                .whereEqualTo("userID", userId)
-                .whereEqualTo("transactionID", id)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        db.collection("transactions").document(document.id)
-                            .delete()
-                            .addOnSuccessListener {
-                                loadTransactionsFromFirestore()
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.e("TransactionViewModel", "Error deleting document: ", exception)
-                            }
-                    }
+            db.collection("transactions").document(id)
+                .delete()
+                .addOnSuccessListener {
+                    loadTransactionsFromFirestore()
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("TransactionViewModel", "Error deleting document: ", exception)
                 }
         }
     }
@@ -107,22 +99,14 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     fun updateTransaction(updatedTransaction: Transaction) {
         viewModelScope.launch {
             val userId = auth.currentUser?.uid ?: return@launch
-            db.collection("transactions")
-                .whereEqualTo("userID", userId)
-                .whereEqualTo("transactionID", updatedTransaction.transactionID)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        db.collection("transactions").document(document.id)
-                            .set(updatedTransaction)
-                            .addOnSuccessListener {
-                                loadTransactionsFromFirestore()
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.e("TransactionViewModel", "Error updating document: ", exception)
-                            }
+            db.collection("transactions").document(updatedTransaction.transactionID)
+                    .set(updatedTransaction)
+                    .addOnSuccessListener {
+                        loadTransactionsFromFirestore()
                     }
-                }
+                    .addOnFailureListener { exception ->
+                        Log.e("TransactionViewModel", "Error updating document: ", exception)
+                    }
         }
     }
 

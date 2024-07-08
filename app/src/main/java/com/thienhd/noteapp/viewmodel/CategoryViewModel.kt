@@ -104,7 +104,6 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
 
     fun updateCategory(updatedCategory: Category) {
         viewModelScope.launch {
-            val userId = auth.currentUser?.uid ?: return@launch
             val documentId = categoryDocumentIds[updatedCategory.categoryID] ?: return@launch
             db.collection("categories").document(documentId)
                 .set(updatedCategory)

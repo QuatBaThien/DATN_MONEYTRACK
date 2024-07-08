@@ -53,7 +53,7 @@ class RVTransactionAdapter(
                 tvTransactionContent.text = item.note
                 tvTime.text = formatDate(item.date)
                 tvTransactionAmount.setTextColor(Color.parseColor(if (item.type != 0) "#FD3C4A" else "#00A86B"))
-                tvTransactionAmount.text = (if (item.type != 0) "-" else "+") + item.amount + " VNĐ"
+                tvTransactionAmount.text = (if (item.type != 0) "- " else "+ ") + item.amount + " VNĐ"
                 val iconName = "ic_item_${category?.iconId}"
                 val iconResId = root.context.resources.getIdentifier(iconName, "drawable", root.context.packageName)
                 ivTransactionIcon.setImageResource(iconResId)

@@ -59,7 +59,7 @@ class BudgetViewModel(application: Application) : AndroidViewModel(application) 
 
         for (budget in budgetList) {
             val currentAmount = transactions.filter { it.categoryID == budget.categoryID }
-                .sumOf { it.amount.toDoubleOrNull() ?: 0.0 }
+                .sumOf { it.amount}
 
             budget.currentAmount = currentAmount
         }

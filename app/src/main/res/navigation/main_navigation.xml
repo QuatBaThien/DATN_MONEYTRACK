@@ -26,8 +26,14 @@
         android:name="com.thienhd.noteapp.view.ui.transaction.EditTransactionFragment"
         tools:layout="@layout/fragment_edit_transaction">
         <action
-            android:id="@+id/action_editTransactionFragment_to_chooseCategoFragment"
+            android:id="@+id/action_editTransactionFragment_to_chooseCategoryFragment"
             app:destination="@id/chooseCategoryFragment" />
+        <action
+            android:id="@+id/action_editTransactionFragment_to_chooseWalletFragment"
+            app:destination="@id/chooseWalletFragment" />
+        <action
+            android:id="@+id/action_editTransactionFragment_to_TransactionFragment"
+            app:destination="@id/nav_transaction" />
         <argument
             android:name="transactionId"
             app:argType="string" />
