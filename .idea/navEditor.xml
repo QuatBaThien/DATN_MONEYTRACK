@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="644" />
-                            <option name="y" value="-621" />
+                            <option name="x" value="662" />
+                            <option name="y" value="-331" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -56,8 +56,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1114" />
-                            <option name="y" value="97" />
+                            <option name="x" value="1551" />
+                            <option name="y" value="158" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -98,8 +98,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1069" />
-                            <option name="y" value="-729" />
+                            <option name="x" value="1177" />
+                            <option name="y" value="-311" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -114,13 +114,89 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="createDebtFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="991" />
+                            <option name="y" value="-1087" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_createDebtFragment_to_chooseWalletFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_createDebtFragment_to_debtFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="createPaymentFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="802" />
+                            <option name="y" value="-713" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="debtFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="500" />
+                            <option name="y" value="-824" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_debtFragment_to_createDebtFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_debtFragment_to_createPaymentFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="detailBudgetFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="200" />
+                            <option name="y" value="98" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="editCategoryFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1042" />
-                            <option name="y" value="-372" />
+                            <option name="x" value="1178" />
+                            <option name="y" value="-658" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -137,6 +213,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_editTransactionFragment_to_TransactionFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_editTransactionFragment_to_chooseCategoryFragment">
                               <value>
                                 <LayoutPositions />
@@ -168,6 +249,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_budgetFragment_to_detailBudgetFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -190,13 +276,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="31" />
-                            <option name="y" value="-642" />
+                            <option name="x" value="-43" />
+                            <option name="y" value="-842" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_menuFragment_to_categoryFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_menuFragment_to_debtFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -237,8 +328,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="733" />
-                            <option name="y" value="-1128" />
+                            <option name="x" value="719" />
+                            <option name="y" value="-1276" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -249,8 +340,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="378" />
-                            <option name="y" value="-1126" />
+                            <option name="x" value="358" />
+                            <option name="y" value="-1322" />
                           </Point>
                         </option>
                         <option name="myPositions">

@@ -49,14 +49,41 @@ class RVTransactionAdapter(
         fun bind(item: Transaction) {
             with(binding) {
                 val category = categoryViewModel.getCategoryById(item.categoryID)
-                tvTransactionTitle.text = category?.name
                 tvTransactionContent.text = item.note
                 tvTime.text = formatDate(item.date)
                 tvTransactionAmount.setTextColor(Color.parseColor(if (item.type != 0) "#FD3C4A" else "#00A86B"))
                 tvTransactionAmount.text = (if (item.type != 0) "- " else "+ ") + item.amount + " VNĐ"
-                val iconName = "ic_item_${category?.iconId}"
-                val iconResId = root.context.resources.getIdentifier(iconName, "drawable", root.context.packageName)
-                ivTransactionIcon.setImageResource(iconResId)
+                when (item.type){
+                    3 -> {
+                        tvTransactionTitle.text = "Vay tiền"
+                        val iconResId = root.context.resources.getIdentifier("ic_item_debt", "drawable", root.context.packageName)
+                        ivTransactionIcon.setImageResource(iconResId)
+                    }
+                    4 -> {
+                        tvTransactionTitle.text = "Cho vay"
+                        val iconResId = root.context.resources.getIdentifier("ic_item_loan", "drawable", root.context.packageName)
+                        ivTransactionIcon.setImageResource(iconResId)
+                    }
+                    5 -> {
+                        tvTransactionTitle.text = "Trả nợ"
+                        val iconResId = root.context.resources.getIdentifier("ic_item_paid_debt", "drawable", root.context.packageName)
+                        ivTransactionIcon.setImageResource(iconResId)
+                    }
+                    6 -> {
+                        tvTransactionTitle.text = "Thu nợ"
+                        val iconResId = root.context.resources.getIdentifier("ic_item_get_paid", "drawable", root.context.packageName)
+                        ivTransactionIcon.setImageResource(iconResId)
+                    }
+
+                    else -> {
+                        val iconName = "ic_item_${category?.iconId}"
+                        tvTransactionTitle.text = category?.name
+                        val iconResId = root.context.resources.getIdentifier(iconName, "drawable", root.context.packageName)
+                        ivTransactionIcon.setImageResource(iconResId)
+                    }
+                }
+
+
 
                 root.setOnClickListener {
                     val bundle = Bundle().apply {

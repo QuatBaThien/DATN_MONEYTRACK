@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 
@@ -74,4 +75,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-auth:21.0.1")
     implementation("com.google.firebase:firebase-firestore")
+
 }

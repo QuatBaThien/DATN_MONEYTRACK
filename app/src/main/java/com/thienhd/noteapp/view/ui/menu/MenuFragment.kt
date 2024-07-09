@@ -30,13 +30,17 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.textCategory.setOnClickListener {
+        binding.constraintCategory.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_categoryFragment)
         }
-        binding.textWallet.setOnClickListener {
+        binding.constraintWallet.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_walletFragment)
         }
+        binding.constraintDebt.setOnClickListener {
+            findNavController().navigate(R.id.action_menuFragment_to_debtFragment)
+        }
+        binding.tvUserEmail
+        binding.tvUserName
+        binding.logout
     }
-
-
 }

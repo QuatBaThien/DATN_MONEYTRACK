@@ -1,6 +1,7 @@
 package com.thienhd.noteapp.view.ui.budget
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,8 +38,19 @@ class BudgetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        budgetViewModel.setCategoryViewModel(categoryViewModel)
         budgetViewModel.setTransactionViewModel(transactionViewModel)
+        budgetAdapter = BudgetAdapter(categoryViewModel) { budgetID ->
+            val bundle = Bundle().apply {
+                putString("budgetId", budgetID)
+            }
+            findNavController().navigate(R.id.action_budgetFragment_to_detailBudgetFragment, bundle)
+        }
+        binding.rvBudgets.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvBudgets.adapter = budgetAdapter
+
+        budgetViewModel.filteredBudgets.observe(viewLifecycleOwner) { budgets ->
+            budgetAdapter.submitList(budgets)
+        }
 
         binding.btBack.setOnClickListener {
             findNavController().navigateUp()
@@ -59,19 +71,11 @@ class BudgetFragment : Fragment() {
             setUnselectedButton(binding.btExpenseBudget)
             budgetViewModel.filterBudgetsByType(0) // Income
         }
-
-        budgetAdapter = BudgetAdapter(categoryViewModel)
-        binding.rvBudgets.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvBudgets.adapter = budgetAdapter
-
-        budgetViewModel.filteredBudgets.observe(viewLifecycleOwner) { budgets ->
-            budgetAdapter.submitList(budgets)
-        }
-
-        // Default to showing expense budgets on fragment start
         budgetViewModel.filterBudgetsByType(1)
         setSelectedButton(binding.btExpenseBudget)
         setUnselectedButton(binding.btIncomeBudget)
+
+        // Default to showing expense budgets on fragment start
     }
 
     private fun setSelectedButton(button: MaterialButton) {
@@ -84,6 +88,11 @@ class BudgetFragment : Fragment() {
         button.isSelected = false
         button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
         button.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        budgetViewModel.filterBudgetsByType(1)
     }
 
     override fun onDestroyView() {

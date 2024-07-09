@@ -13,6 +13,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -20,15 +21,11 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.thienhd.noteapp.R
 import com.thienhd.noteapp.data.entities.Transaction
+import com.thienhd.noteapp.data.entities.Wallet
 import com.thienhd.noteapp.databinding.FragmentEditTransactionBinding
-import com.thienhd.noteapp.viewmodel.CategoryViewModel
-import com.thienhd.noteapp.viewmodel.ChooseCategoryViewModel
-import com.thienhd.noteapp.viewmodel.ChooseWalletViewModel
-import com.thienhd.noteapp.viewmodel.TransactionViewModel
-import com.thienhd.noteapp.viewmodel.WalletViewModel
+import com.thienhd.noteapp.viewmodel.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.log
 
 class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -55,9 +52,9 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
 
     private var isWalletIDChange = false
     private var isCategoryIDChange = false
-    private var isNoteChange= false
-    private var isDateChange= false
-    private var isAmountChange= false
+    private var isNoteChange = false
+    private var isDateChange = false
+    private var isAmountChange = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,19 +66,64 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         transactionId = arguments?.getString("transactionId")
-        Log.d("transactionId", " ${transactionId} ")
+        Log.d("transactionId", " $transactionId ")
+
         transactionId?.let {
             currentTransaction = transactionViewModel.getTransactionById(it)
             currentTransaction?.let { transaction ->
-                initialAmount = transaction.amount
-                initialNote = transaction.note
-                initialCategoryID = transaction.categoryID
-                initialWalletID = transaction.walletID
-                populateTransactionDetails(transaction)
+                when (transaction.type) {
+                    3 -> setupDebtTransaction(transaction)
+                    4 -> setupLoanTransaction(transaction)
+                    5 -> setupPayDebtTransaction(transaction)
+                    6 -> setupGetLoanTransaction(transaction)
+                    else -> setupRegularTransaction(transaction)
+                }
             }
         }
 
+        observeViewModels()
+        setupListeners()
+        updateSaveButtonState()
+    }
+
+    private fun setupDebtTransaction(transaction: Transaction) {
+        populateTransactionDetails(transaction)
+        setTransactionUI(R.drawable.ic_item_debt, "Vay tiền", "Thông tin giao dịch vay")
+        disableUserInteractions()
+        hideTrashButton()
+    }
+
+    private fun setupLoanTransaction(transaction: Transaction) {
+        populateTransactionDetails(transaction)
+        setTransactionUI(R.drawable.ic_item_loan, "Cho vay", "Thông tin giao dịch cho vay")
+        disableUserInteractions()
+        hideTrashButton()
+    }
+    private fun setupPayDebtTransaction(transaction: Transaction) {
+        populateTransactionDetails(transaction)
+        setTransactionUI(R.drawable.ic_item_paid_debt, "Trả nợ", "Thông tin giao dịch cho vay")
+        disableUserInteractions()
+        hideTrashButton()
+    }
+
+    private fun setupGetLoanTransaction(transaction: Transaction) {
+        populateTransactionDetails(transaction)
+        setTransactionUI(R.drawable.ic_item_get_paid, "Thu nợ", "Thông tin giao dịch cho vay")
+        disableUserInteractions()
+        hideTrashButton()
+    }
+
+    private fun setupRegularTransaction(transaction: Transaction) {
+        initialAmount = transaction.amount
+        initialNote = transaction.note
+        initialCategoryID = transaction.categoryID
+        initialWalletID = transaction.walletID
+        populateTransactionDetails(transaction)
+    }
+
+    private fun observeViewModels() {
         chooseCategoryViewModel.categoryId.observe(viewLifecycleOwner) { categoryId ->
             if (categoryId != null) {
                 updateCategoryUI(categoryId)
@@ -90,7 +132,6 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
             } else {
                 isCategorySelected = false
             }
-
             updateSaveButtonState()
         }
 
@@ -102,11 +143,11 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
             } else {
                 isWalletSelected = false
             }
-
             updateSaveButtonState()
         }
+    }
 
-        // Add text watcher to update save button state when amount is changed
+    private fun setupListeners() {
         binding.etTransactionAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 isAmountChange = s.toString() != initialAmount.toString()
@@ -116,6 +157,7 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
         binding.tvTranContent.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 isNoteChange = s.toString() != initialNote
@@ -125,16 +167,15 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
         binding.chooseCategory.setOnClickListener {
             isReset = false
             findNavController().navigate(R.id.action_editTransactionFragment_to_chooseCategoryFragment)
-
         }
 
         binding.chooseWallet.setOnClickListener {
             isReset = false
             findNavController().navigate(R.id.action_editTransactionFragment_to_chooseWalletFragment)
-
         }
 
         binding.btBack.setOnClickListener {
@@ -152,13 +193,9 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
             showDateTimePicker()
         }
 
-
-
         binding.btSaveTransaction.setOnClickListener {
             saveTransaction()
         }
-
-        updateSaveButtonState()
     }
 
     private fun populateTransactionDetails(transaction: Transaction) {
@@ -172,7 +209,6 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
 
     private fun updateCategoryUI(categoryId: Int) {
         val category = categoryViewModel.getCategoryById(categoryId)
-        Log.d("transactionId", " cate ${category?.name} ")
         category?.let {
             binding.ivTransactionIcon.setImageResource(getIconResource(it.iconId))
             binding.tvTransactionTitle.text = it.name
@@ -181,7 +217,6 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
 
     private fun updateWalletUI(walletId: String) {
         val wallet = walletViewModel.getWalletByWalletID(walletId)
-        Log.d("transactionId", " cate ${wallet?.name} ")
         wallet?.let {
             binding.tvWalletTitle.text = it.name
             binding.tvWalletBalance.text = it.balance
@@ -256,45 +291,79 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
     }
 
     private fun saveTransaction() {
-        val amount = binding.etTransactionAmount.text.toString()
+        val newAmountStr = binding.etTransactionAmount.text.toString()
         val note = binding.tvTranContent.text.toString()
-        val categoryId = currentTransaction?.categoryID ?: 0
-        val walletId = currentTransaction?.walletID ?: ""
+        val newCategoryId = chooseCategoryViewModel.categoryId.value ?: currentTransaction?.categoryID ?: 0
+        val newWalletId = chooseWalletViewModel.walletId.value ?: currentTransaction?.walletID ?: ""
+        val newAmount = newAmountStr.toDoubleOrNull() ?: 0.0
         val type = currentTransaction?.type ?: 0
 
-        val wallet = walletViewModel.getWalletByWalletID(walletId)
-        wallet?.let {
-            val currentBalance = it.balance.toDoubleOrNull() ?: 0.0
-            val transactionAmount = amount.toDoubleOrNull() ?: 0.0
+        val oldAmount = currentTransaction?.amount ?: 0.0
+        val newWallet = walletViewModel.getWalletByWalletID(newWalletId)
+        val oldWallet = initialWalletID?.let { walletViewModel.getWalletByWalletID(it) }
 
-            if (type == 1 && transactionAmount > currentBalance) {
-                // Expense and insufficient balance
+        if (newWallet != null && oldWallet != null) {
+            handleWalletBalances(newWallet, oldWallet, newAmount, oldAmount, newWalletId, type)
+            val transaction = createTransaction(newWalletId, newCategoryId, note, newAmount, type)
+            transactionViewModel.updateTransaction(transaction)
+            findNavController().navigateUp()
+        } else {
+            showToast("Lỗi: Không tìm thấy ví.")
+        }
+    }
+
+    private fun handleWalletBalances(newWallet: Wallet, oldWallet: Wallet, newAmount: Double, oldAmount: Double, newWalletId: String, type: Int) {
+        if (newWalletId == initialWalletID) {
+            // Same wallet case
+            val difference = newAmount - oldAmount
+            if (type == 1 && difference > newWallet.balance.toDoubleOrNull() ?: 0.0) {
                 showToast("Giao dịch thất bại: Số dư không đủ.")
                 return
             }
-
             val newBalance = if (type == 1) {
-                currentBalance - transactionAmount
+                newWallet.balance.toDoubleOrNull()?.minus(difference)
             } else {
-                currentBalance + transactionAmount
+                newWallet.balance.toDoubleOrNull()?.plus(difference)
             }
-
-            walletViewModel.updateWalletBalance(walletId, newBalance)
-            val transaction = Transaction(
-                transactionID = currentTransaction?.transactionID ?: "",
-                walletID = walletId,
-                categoryID = categoryId,
-                note = note,
-                type = type,
-                amount = amount.toDoubleOrNull()?: 0.0,
-                date = Timestamp(calendar.time), // Save the updated timestamp
-                hour = SimpleDateFormat("HH:mm", Locale("vi", "VN")).format(calendar.time),
-                userID = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-            )
-
-            transactionViewModel.updateTransaction(transaction)
+            newBalance?.let { walletViewModel.updateWalletBalance(newWalletId, it) }
+        } else {
+            // Different wallet case
+            handleDifferentWallets(newWallet, oldWallet, newAmount, oldAmount, type)
         }
-        findNavController().navigateUp()
+    }
+
+    private fun handleDifferentWallets(newWallet: Wallet, oldWallet: Wallet, newAmount: Double, oldAmount: Double, type: Int) {
+        val newWalletBalance = newWallet.balance.toDoubleOrNull() ?: 0.0
+        val oldWalletBalance = oldWallet.balance.toDoubleOrNull() ?: 0.0
+        val isExpense = type == 1
+        val newWalletNewBalance = if (isExpense) newWalletBalance - newAmount else newWalletBalance + newAmount
+        val oldWalletNewBalance = if (isExpense) oldWalletBalance + oldAmount else oldWalletBalance - oldAmount
+
+        if (newWalletNewBalance < 0) {
+            showToast("Giao dịch thất bại: Số dư không đủ trong ví mới.")
+            return
+        }
+
+        walletViewModel.updateWalletBalance(newWallet.walletID, newWalletNewBalance)
+        initialWalletID?.let { walletViewModel.updateWalletBalance(it, oldWalletNewBalance) }
+    }
+
+    private fun createTransaction(newWalletId: String, newCategoryId: Int, note: String, newAmount: Double, type: Int): Transaction {
+        val sdf = SimpleDateFormat("HH:mm, EEEE, dd MMMM yyyy", Locale("vi", "VN"))
+        val dateStr = binding.tvTransactionTime.text.toString()
+        val date = sdf.parse(dateStr) ?: calendar.time
+
+        return Transaction(
+            transactionID = currentTransaction?.transactionID ?: "",
+            walletID = newWalletId,
+            categoryID = newCategoryId,
+            note = note,
+            type = type,
+            amount = newAmount,
+            date = Timestamp(date),
+            hour = SimpleDateFormat("HH:mm", Locale("vi", "VN")).format(date),
+            userID = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        )
     }
 
     private fun showToast(message: String) {
@@ -308,6 +377,7 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
             chooseWalletViewModel.resetWallet()
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -315,5 +385,26 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
             chooseCategoryViewModel.resetCategory()
             chooseWalletViewModel.resetWallet()
         }
+    }
+
+    private fun disableUserInteractions() {
+        binding.etTransactionAmount.isEnabled = false
+        binding.etTransactionAmount.isFocusable = false
+        binding.etTransactionAmount.isFocusableInTouchMode = false
+        binding.chooseCategory.isEnabled = false
+        binding.chooseWallet.isEnabled = false
+        binding.tvTransactionTime.isEnabled = false
+        binding.tvTranContent.isEnabled = false
+    }
+
+    private fun hideTrashButton() {
+        binding.btTrash.isVisible = false
+        binding.btSaveTransaction.isVisible = false
+    }
+
+    private fun setTransactionUI(iconResId: Int, title: String, description: String) {
+        binding.ivTransactionIcon.setImageResource(iconResId)
+        binding.tvTransactionTitle.text = title
+        binding.textView.text = description
     }
 }

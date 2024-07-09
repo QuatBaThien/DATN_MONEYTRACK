@@ -31,6 +31,7 @@ class CreateBudgetFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private val chooseCategoryViewModel: ChooseCategoryViewModel by activityViewModels()
     private val calendar: Calendar = Calendar.getInstance()
     private var isStartDate = true
+    var isReset = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +57,7 @@ class CreateBudgetFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
 
         binding.chooseCategory.setOnClickListener {
+            isReset = false
             findNavController().navigate(R.id.action_createBudgetFragment_to_chooseCategoryFragment)
         }
 
@@ -162,6 +164,10 @@ class CreateBudgetFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         findNavController().navigateUp()
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (isReset) chooseCategoryViewModel.resetCategory()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

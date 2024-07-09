@@ -64,6 +64,18 @@
         <action
             android:id="@+id/action_budgetFragment_to_createBudgetFragment"
             app:destination="@id/createBudgetFragment" />
+        <action
+            android:id="@+id/action_budgetFragment_to_detailBudgetFragment"
+            app:destination="@id/detailBudgetFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailBudgetFragment"
+        android:name="com.thienhd.noteapp.view.ui.budget.DetailBudgetFragment"
+        tools:layout="@layout/fragment_detail_budget">
+        <argument
+            android:name="budgetID"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -92,6 +104,9 @@
         <action
             android:id="@+id/action_menuFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_debtFragment"
+            app:destination="@id/debtFragment" />
     </fragment>
 
     <fragment
@@ -152,5 +167,46 @@
         <argument
             android:name="walletId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/debtFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.debt.DebtFragment"
+        android:label="Debts"
+        tools:layout="@layout/fragment_debt">
+    <action
+        android:id="@+id/action_debtFragment_to_createDebtFragment"
+        app:destination="@id/createDebtFragment" />
+        <action
+            android:id="@+id/action_debtFragment_to_createPaymentFragment"
+            app:destination="@id/createPaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createDebtFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.debt.CreateDebtFragment"
+        tools:layout="@layout/fragment_create_debt">
+        <action
+            android:id="@+id/action_createDebtFragment_to_debtFragment"
+            app:destination="@id/debtFragment" />
+        <action
+            android:id="@+id/action_createDebtFragment_to_chooseWalletFragment"
+            app:destination="@id/chooseWalletFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPaymentFragment"
+        android:name="com.thienhd.noteapp.view.ui.menu.debt.CreatePaymentFragment"
+        android:label="CreatePaymentFragment"
+        tools:layout="@layout/fragment_create_payment">
+        <argument
+            android:name="debtId"
+            app:argType="string" />
+        <argument
+            android:name="debtType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_createPaymentFragment_to_chooseWalletFragment"
+            app:destination="@id/chooseWalletFragment"/>
+        <action
+            android:id="@+id/action_createPaymentFragment_to_debtFragment"
+            app:destination="@id/debtFragment"/>
     </fragment>
 </navigation>

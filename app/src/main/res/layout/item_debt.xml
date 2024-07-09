@@ -28,12 +28,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="60dp"
+            android:layout_marginTop="16dp"
             android:text="Vay:"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/tv_date"
-            app:layout_constraintTop_toTopOf="@+id/tv_date" />
+            app:layout_constraintStart_toStartOf="@+id/tv_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
         <TextView
             android:id="@+id/tv_leader_name"
@@ -53,16 +53,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Số tiền:"
-            android:textColor="@color/black"
 
+            android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_debt_type" />
 
         <TextView
-            android:id="@+id/tv_paid_amount"
+            android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_amount_text" />
 
         <TextView
-            android:id="@+id/tv_amount"
+            android:id="@+id/tv_paid_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -97,20 +97,21 @@
             android:textColor="#4CAF50"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_paid_amount_text"
-            app:layout_constraintEnd_toEndOf="@+id/tv_paid_amount"
-            app:layout_constraintTop_toTopOf="@+id/tv_paid_amount_text" />
+            app:layout_constraintStart_toStartOf="@+id/tv_amount"
+            app:layout_constraintTop_toTopOf="@+id/tv_paid_amount_text"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_deadline_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Hạn:"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_debt_type"
-            app:layout_constraintTop_toBottomOf="@+id/tv_debt_type" />
+            app:layout_constraintStart_toStartOf="@+id/tv_paid_amount_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_paid_amount_text" />
 
         <TextView
             android:id="@+id/tv_deadline_date"
@@ -121,7 +122,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_deadline_text"
-            app:layout_constraintStart_toStartOf="@+id/tv_leader_name"
+            app:layout_constraintStart_toStartOf="@+id/tv_paid_amount"
             app:layout_constraintTop_toTopOf="@+id/tv_deadline_text"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -130,14 +131,34 @@
             style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:backgroundTint="@color/white"
             android:text="Thanh toán"
             android:textColor="#4CAF50"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_deadline_text"
-            app:layout_constraintTop_toBottomOf="@+id/tv_deadline_text"
+
+            app:layout_constraintBottom_toBottomOf="@+id/tv_deadline_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_date"
+            app:layout_constraintVertical_bias="0.306"
             app:strokeColor="#4CAF50"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_delete"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="Xoá"
+            android:textColor="#F44336"
+            android:textSize="14sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_deadline_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/bt_done_debt"
+            app:layout_constraintTop_toBottomOf="@+id/bt_done_debt"
+            app:layout_constraintVertical_bias="0.0"
+            app:strokeColor="#F44336"
             app:strokeWidth="1dp" />
 
 

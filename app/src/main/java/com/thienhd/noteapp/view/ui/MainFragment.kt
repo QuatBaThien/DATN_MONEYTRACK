@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -30,7 +31,7 @@ class MainFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private val walletViewModel: WalletViewModel by activityViewModels()
     private val categoryViewModel: CategoryViewModel by activityViewModels()
-    private val transactionViewModel:TransactionViewModel by activityViewModels()
+    private val transactionViewModel: TransactionViewModel by activityViewModels()
     private val budgetViewModel: BudgetViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -40,12 +41,42 @@ class MainFragment : Fragment() {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val navHost = childFragmentManager.findFragmentById(R.id.main_container)
         val navView: BottomNavigationView = binding.bottomAppBar
-        navHost?.findNavController()?.let {
-            navView.setupWithNavController(it) }
+
+        navHost?.findNavController()?.let { navController ->
+            navView.setupWithNavController(navController)
+
+            navView.setOnNavigationItemSelectedListener { item ->
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(navController.graph.startDestinationId, inclusive = false)
+                    .build()
+                when (item.itemId) {
+                    R.id.nav_home -> {
+                        navController.navigate(R.id.nav_home, null, navOptions)
+                        true
+                    }
+                    R.id.nav_transaction -> {
+                        navController.navigate(R.id.nav_transaction, null, navOptions)
+                        true
+                    }
+                    R.id.nav_budget -> {
+                        navController.navigate(R.id.nav_budget, null, navOptions)
+                        true
+                    }
+                    R.id.nav_menu -> {
+                        navController.navigate(R.id.nav_menu, null, navOptions)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         binding.fab.setOnClickListener {
@@ -56,6 +87,7 @@ class MainFragment : Fragment() {
         categoryViewModel.loadCategoriesFromFirestore()
         transactionViewModel.loadTransactionsFromFirestore()
     }
+
     private fun checkFirstLogin() {
         val userId = auth.currentUser?.uid ?: return
 
@@ -85,22 +117,23 @@ class MainFragment : Fragment() {
                 Toast.makeText(requireContext(), "Lỗi kiểm tra ví tiền: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
     private fun addDefaultCategories(userId: String) {
         val categories = listOf(
-            Category(1,3, "Mua sắm", 1, "userID"), // iconId, name, type, userID
-            Category(2,4, "Ăn uống", 1, "userID"),
-        Category(3, 8, "Chi tiêu hàng ngày", 1, "userID"),
-        Category(4, 9, "Đi lại", 1, "userID"),
-        Category(5, 6, "Hóa đơn", 1, "userID"),
-        Category(6,19, "Mỹ phẩm", 1, "userID"),
-        Category(7,17, "Y tế", 1, "userID"),
-        Category(8,1, "Tiền thưởng", 0, "userID"),
-        Category(9,2, "Tiền lương", 0, "userID"),
-        Category(10,18, "Thu nhập khác", 0, "userID"),
-        Category(11,16, "Đầu tư", 0, "userID"),
-        Category(12,20, "Đi vay", 0, "userID"),
-        Category(13,12, "Thu nợ", 0, "userID"),
-        Category(14,18, "Khoản chi khác", 1, "userID")
+            Category(1, 3, "Mua sắm", 1, userId), // iconId, name, type, userID
+            Category(2, 4, "Ăn uống", 1, userId),
+            Category(3, 8, "Chi tiêu hàng ngày", 1, userId),
+            Category(4, 9, "Đi lại", 1, userId),
+            Category(5, 6, "Hóa đơn", 1, userId),
+            Category(6, 19, "Mỹ phẩm", 1, userId),
+            Category(7, 17, "Y tế", 1, userId),
+            Category(8, 1, "Tiền thưởng", 0, userId),
+            Category(9, 2, "Tiền lương", 0, userId),
+            Category(10, 18, "Thu nhập khác", 0, userId),
+            Category(11, 16, "Đầu tư", 0, userId),
+            Category(12, 20, "Đi vay", 0, userId),
+            Category(13, 12, "Thu nợ", 0, userId),
+            Category(14, 18, "Khoản chi khác", 1, userId)
         )
 
         val batch = db.batch()

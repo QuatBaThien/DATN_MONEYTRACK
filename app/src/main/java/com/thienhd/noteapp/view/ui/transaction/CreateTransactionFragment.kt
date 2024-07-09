@@ -235,7 +235,10 @@ class CreateTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener
 
     override fun onResume() {
         super.onResume()
-        isReset = true
+        if (isReset) {
+            chooseCategoryViewModel.resetCategory()
+            chooseWalletViewModel.resetWallet()
+        }
     }
 
     override fun onDestroyView() {
