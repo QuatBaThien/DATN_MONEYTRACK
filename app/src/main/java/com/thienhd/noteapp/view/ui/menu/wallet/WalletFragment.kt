@@ -78,12 +78,12 @@ class WalletFragment : Fragment() {
 
         dialogView.findViewById<View>(R.id.buttonCreateWallet).setOnClickListener {
             val walletName = walletNameEditText.text.toString()
-            val walletBalance = walletBalanceEditText.text.toString()
+            val walletBalance = walletBalanceEditText.text.toString().toDoubleOrNull()
 
             if (walletName.isNotEmpty()) {
                 viewModel.addWallet(
                     Wallet(
-                        balance = walletBalance,
+                        balance = walletBalance!!,
                         name = walletName,
                         isDeleted = false,
                     )

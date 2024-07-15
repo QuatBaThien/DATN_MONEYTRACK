@@ -181,7 +181,7 @@ class CreatePaymentFragment : Fragment() {
 
     private fun createTransaction() {
         val wallet = walletViewModel.getWalletByWalletID(walletID) ?: return
-        newBalance = wallet.balance.toDoubleOrNull()?.minus(payAmount)!!
+        newBalance = wallet.balance.minus(payAmount)
         if (newBalance < 0) {
             Toast.makeText(requireContext(), "Tạo thất bại: Số dư không đủ", Toast.LENGTH_SHORT).show()
             return
@@ -217,7 +217,7 @@ class CreatePaymentFragment : Fragment() {
         transactionViewModel.addTransaction(
             Transaction(
                 walletID = walletID,
-                categoryID = 0,
+                categoryID = if (debtType == "debt") -5 else -6,
                 note = if (debtType == "debt") "Trả nợ cho $debtPeople" else "Thu nợ của $debtPeople",
                 type = if (debtType == "debt") 5 else 6,
                 amount = payAmount,
@@ -249,7 +249,7 @@ class CreatePaymentFragment : Fragment() {
         val wallet = walletViewModel.getWalletByWalletID(walletId)
         wallet?.let {
             binding.tvWalletTitle.text = it.name
-            binding.tvWalletBalance.text = it.balance
+            binding.tvWalletBalance.text = numberFormat.format(it.balance) + " VNĐ"
         }
     }
 

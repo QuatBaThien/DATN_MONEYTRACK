@@ -12,6 +12,7 @@ import com.thienhd.noteapp.data.entities.Transaction
 import com.thienhd.noteapp.databinding.ItemDayTextBinding
 import com.thienhd.noteapp.databinding.ItemTransactionBinding
 import com.thienhd.noteapp.viewmodel.CategoryViewModel
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,12 +48,13 @@ class RVTransactionAdapter(
 
     inner class TypeTwoViewHolder(private val binding: ItemTransactionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Transaction) {
+            val numberFormat = NumberFormat.getNumberInstance(Locale("vi", "VN"))
             with(binding) {
                 val category = categoryViewModel.getCategoryById(item.categoryID)
                 tvTransactionContent.text = item.note
                 tvTime.text = formatDate(item.date)
                 tvTransactionAmount.setTextColor(Color.parseColor(if (item.type != 0) "#FD3C4A" else "#00A86B"))
-                tvTransactionAmount.text = (if (item.type != 0) "- " else "+ ") + item.amount + " VNĐ"
+                tvTransactionAmount.text = (if (item.type != 0) "- " else "+ ") + numberFormat.format(item.amount) + " VNĐ"
                 when (item.type){
                     3 -> {
                         tvTransactionTitle.text = "Vay tiền"
@@ -84,8 +86,8 @@ class RVTransactionAdapter(
                 }
 
 
-
-                root.setOnClickListener {
+                if (categoryViewModel.isTransactionPage)
+                        root.setOnClickListener {
                     val bundle = Bundle().apply {
                         putString("transactionId", item.transactionID) // Use transactionID as a String
                     }

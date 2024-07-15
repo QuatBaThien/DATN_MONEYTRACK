@@ -7,6 +7,7 @@ import com.thienhd.noteapp.R
 import com.thienhd.noteapp.data.entities.Transaction
 import com.thienhd.noteapp.databinding.ItemTransactionBinding
 import com.thienhd.noteapp.viewmodel.CategoryViewModel
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -34,10 +35,11 @@ class BudgetTransactionAdapter (
 
         inner class TransactionViewHolder(private val binding: ItemTransactionBinding) : RecyclerView.ViewHolder(binding.root) {
             fun bind(transaction: Transaction) {
+                val numberFormat = NumberFormat.getNumberInstance(Locale("vi", "VN"))
                 binding.apply {
                     val category = categoryViewModel.getCategoryById(transaction.categoryID)
                     tvTransactionTitle.text = category?.name ?: "Unknown Category"
-                    tvTransactionAmount.text = transaction.amount.toString()
+                    tvTransactionAmount.text = numberFormat.format(transaction.amount) + " VNĐ"
                     tvTime.text = SimpleDateFormat("dd-MM-yyyy", Locale("vi", "VN")).format(transaction.date.toDate())
                     tvTransactionContent.text = transaction.note
                     category?.iconId?.let { iconId ->

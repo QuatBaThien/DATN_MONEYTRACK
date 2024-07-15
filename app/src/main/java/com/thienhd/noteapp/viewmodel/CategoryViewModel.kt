@@ -28,6 +28,7 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
     val selectedIcon: LiveData<Int?> get() = _selectedIcon
 
     private val categoryDocumentIds = mutableMapOf<Int, String>()
+    var isTransactionPage = false
 
     init {
         // Initially load categories from Firestore

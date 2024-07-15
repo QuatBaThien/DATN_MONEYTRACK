@@ -24,6 +24,7 @@ import com.thienhd.noteapp.data.entities.Transaction
 import com.thienhd.noteapp.data.entities.Wallet
 import com.thienhd.noteapp.databinding.FragmentEditTransactionBinding
 import com.thienhd.noteapp.viewmodel.*
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,6 +56,7 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
     private var isNoteChange = false
     private var isDateChange = false
     private var isAmountChange = false
+    val numberFormat = NumberFormat.getNumberInstance(Locale("vi", "VN"))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -219,7 +221,7 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
         val wallet = walletViewModel.getWalletByWalletID(walletId)
         wallet?.let {
             binding.tvWalletTitle.text = it.name
-            binding.tvWalletBalance.text = it.balance
+            binding.tvWalletBalance.text = numberFormat.format(it.balance) + " VNĐ"
         }
     }
 
@@ -316,16 +318,16 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
         if (newWalletId == initialWalletID) {
             // Same wallet case
             val difference = newAmount - oldAmount
-            if (type == 1 && difference > newWallet.balance.toDoubleOrNull() ?: 0.0) {
+            if (type == 1 && difference > newWallet.balance) {
                 showToast("Giao dịch thất bại: Số dư không đủ.")
                 return
             }
             val newBalance = if (type == 1) {
-                newWallet.balance.toDoubleOrNull()?.minus(difference)
+                newWallet.balance.minus(difference)
             } else {
-                newWallet.balance.toDoubleOrNull()?.plus(difference)
+                newWallet.balance.plus(difference)
             }
-            newBalance?.let { walletViewModel.updateWalletBalance(newWalletId, it) }
+            newBalance.let { walletViewModel.updateWalletBalance(newWalletId, it) }
         } else {
             // Different wallet case
             handleDifferentWallets(newWallet, oldWallet, newAmount, oldAmount, type)
@@ -333,8 +335,8 @@ class EditTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener, 
     }
 
     private fun handleDifferentWallets(newWallet: Wallet, oldWallet: Wallet, newAmount: Double, oldAmount: Double, type: Int) {
-        val newWalletBalance = newWallet.balance.toDoubleOrNull() ?: 0.0
-        val oldWalletBalance = oldWallet.balance.toDoubleOrNull() ?: 0.0
+        val newWalletBalance = newWallet.balance
+        val oldWalletBalance = oldWallet.balance
         val isExpense = type == 1
         val newWalletNewBalance = if (isExpense) newWalletBalance - newAmount else newWalletBalance + newAmount
         val oldWalletNewBalance = if (isExpense) oldWalletBalance + oldAmount else oldWalletBalance - oldAmount

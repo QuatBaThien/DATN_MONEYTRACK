@@ -5,15 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thienhd.noteapp.data.entities.Wallet
 import com.thienhd.noteapp.databinding.ItemWalletBinding
+import java.text.NumberFormat
+import java.util.Locale
 
 class WalletAdapter(
     private var wallets: List<Wallet>,
     private val itemClickListener: (Wallet) -> Unit
 ) : RecyclerView.Adapter<WalletAdapter.WalletViewHolder>() {
-
     class WalletViewHolder(private val binding: ItemWalletBinding) : RecyclerView.ViewHolder(binding.root) {
+        val numberFormat = NumberFormat.getNumberInstance(Locale("vi", "VN"))
         fun bind(wallet: Wallet, clickListener: (Wallet) -> Unit) {
             binding.wallet = wallet
+            binding.tvWalletBalance.text = numberFormat.format(wallet.balance) + " VNĐ"
             binding.root.setOnClickListener { clickListener(wallet) }
             binding.executePendingBindings()
         }

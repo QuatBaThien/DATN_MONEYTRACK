@@ -25,6 +25,7 @@ import com.thienhd.noteapp.viewmodel.ChooseWalletViewModel
 import com.thienhd.noteapp.viewmodel.CreateTransactionViewModel
 import com.thienhd.noteapp.viewmodel.TransactionViewModel
 import com.thienhd.noteapp.viewmodel.WalletViewModel
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +44,8 @@ class CreateTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener
     private val chooseWalletViewModel: ChooseWalletViewModel by activityViewModels()
     private val calendar: Calendar = Calendar.getInstance()
     private var isReset = true
+
+    val numberFormat = NumberFormat.getNumberInstance(Locale("vi", "VN"))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -130,7 +133,7 @@ class CreateTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener
         val wallet = walletViewModel.getWalletByWalletID(walletId)
         wallet?.let {
             binding.tvWalletTitle.text = it.name
-            binding.tvWalletBalance.text = it.balance
+            binding.tvWalletBalance.text =  numberFormat.format(it.balance) + " VNĐ"
         }
     }
 
@@ -207,9 +210,9 @@ class CreateTransactionFragment : Fragment(), DatePickerDialog.OnDateSetListener
         val category = categoryViewModel.getCategoryById(categoryId) ?: return
 
         val newBalance = if (category.type == 1) {
-            wallet.balance.toDoubleOrNull()?.minus(amount)
+            wallet.balance.minus(amount)
         } else {
-            wallet.balance.toDoubleOrNull()?.plus(amount)
+            wallet.balance.plus(amount)
         }
 
         if (newBalance != null && newBalance >= 0) {

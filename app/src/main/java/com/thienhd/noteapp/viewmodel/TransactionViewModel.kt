@@ -25,13 +25,22 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     private var originalTransactions: List<Transaction> = listOf()
 
     private val _currentFilterCriteria = MutableLiveData<FilterCriteria>()
+
     val currentFilterCriteria: LiveData<FilterCriteria> get() = _currentFilterCriteria
     init {
         viewModelScope.launch {
             loadTransactionsFromFirestore()
         }
     }
+    companion object {
+        @Volatile private var instance: TransactionViewModel? = null
 
+        fun getInstance(application: Application): TransactionViewModel {
+            return instance ?: synchronized(this) {
+                instance ?: TransactionViewModel(application).also { instance = it }
+            }
+        }
+    }
     fun loadTransactionsFromFirestore() {
         val userId = auth.currentUser?.uid ?: return
 

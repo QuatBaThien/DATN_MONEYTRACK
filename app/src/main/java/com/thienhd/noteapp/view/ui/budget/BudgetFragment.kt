@@ -93,6 +93,7 @@ class BudgetFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         budgetViewModel.filterBudgetsByType(1)
+        binding.btExpenseBudget.performClick()
     }
 
     override fun onDestroyView() {

@@ -109,6 +109,7 @@ class TransactionFragment : Fragment(), TransactionFilterBottomSheetFragment.OnF
             updateFilterButtonAppearance(criteria)
         }
         viewModel.loadTransactionsFromFirestore()
+        categoryViewModel.isTransactionPage = true
     }
     private fun View.hideKeyboard() {
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

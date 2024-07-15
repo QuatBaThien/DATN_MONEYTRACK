@@ -23,6 +23,7 @@ import com.thienhd.noteapp.data.entities.Transaction
 import com.thienhd.noteapp.viewmodel.ChooseWalletViewModel
 import com.thienhd.noteapp.viewmodel.TransactionViewModel
 import com.thienhd.noteapp.viewmodel.WalletViewModel
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,6 +48,7 @@ class CreateDebtFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var isReset = true
     private var walletID = ""
     private var newBalance = 0.0
+    val numberFormat = NumberFormat.getNumberInstance(Locale("vi", "VN"))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -147,7 +149,7 @@ class CreateDebtFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         val wallet = walletViewModel.getWalletByWalletID(walletId)
         wallet?.let {
             binding.tvWalletTitle.text = it.name
-            binding.tvWalletBalance.text = it.balance
+            binding.tvWalletBalance.text = numberFormat.format(it.balance) + " VNĐ"
         }
     }
 
@@ -216,12 +218,12 @@ class CreateDebtFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 isUndeadline = isUndeadline
             )
             debtViewModel.addDebt(debt)
-            newBalance = wallet.balance.toDoubleOrNull()?.plus(amount)!!
+            newBalance = wallet.balance.plus(amount)
             walletViewModel.updateWalletBalance(walletID, newBalance)
             transactionViewModel.addTransaction(
                 Transaction(
                     walletID = walletID,
-                    categoryID = 0,
+                    categoryID = -3,
                     note = "Vay tiền từ $lender",
                     type = 3,
                     amount = amount,
@@ -230,7 +232,7 @@ class CreateDebtFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 )
             )
         } else {
-            newBalance = wallet.balance.toDoubleOrNull()?.minus(amount)!!
+            newBalance = wallet.balance.minus(amount)
             if (newBalance >= 0) {
                 val loan = Loan(
                     userID = debtViewModel.getCurrentUserId(),
@@ -245,7 +247,7 @@ class CreateDebtFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 transactionViewModel.addTransaction(
                     Transaction(
                         walletID = walletID,
-                        categoryID = 0,
+                        categoryID = -4,
                         note = "Cho vay: $lender vay tiền",
                         type = 4,
                         amount = amount,

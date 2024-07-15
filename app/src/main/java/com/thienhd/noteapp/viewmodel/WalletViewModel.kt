@@ -22,7 +22,15 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
             loadWalletsFromFirestore()
         }
     }
+    companion object {
+        @Volatile private var instance: WalletViewModel? = null
 
+        fun getInstance(application: Application): WalletViewModel {
+            return instance ?: synchronized(this) {
+                instance ?: WalletViewModel(application).also { instance = it }
+            }
+        }
+    }
     fun loadWalletsFromFirestore() {
         val userId = auth.currentUser?.uid ?: return
 
@@ -92,7 +100,7 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
     fun updateWalletBalance(walletID: String, newBalance: Double) {
         viewModelScope.launch {
             val walletRef = db.collection("wallets").document(walletID)
-            walletRef.update("balance", newBalance.toString())
+            walletRef.update("balance", newBalance)
                 .addOnSuccessListener {
                     loadWalletsFromFirestore()
                 }
